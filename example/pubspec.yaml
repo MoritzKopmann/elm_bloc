@@ -1,0 +1,17 @@
+name: flutter_mvu_example
+description: Demonstrates flutter_mvu in a simple counter app.
+publish_to: "none"
+
+environment:
+  sdk: ">=2.17.0 <4.0.0"
+  flutter: ">=3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_mvu:
+    path: ../
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
