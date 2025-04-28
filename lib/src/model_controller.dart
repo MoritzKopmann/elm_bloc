@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_mvu/src/event.dart';
 import 'package:flutter_mvu/src/sink_and_stream.dart';
 
-class ModelController<T> {
+class ModelController<T extends Object> {
   final T _model;
   T get model => _model;
 
@@ -13,7 +13,7 @@ class ModelController<T> {
 
   ModelController(this._model) {
     _initEventStreamListener();
-    _notifyListeners();
+    notifyListeners();
   }
 
   Stream<T> get stream => _stateStream.stream;
@@ -30,7 +30,7 @@ class ModelController<T> {
   void _initEventStreamListener() {
     _events.stream.listen((Event<T> event) async {
       event.updateModel(_model, triggerEvent, _triggerOutEvent);
-      _notifyListeners();
+      notifyListeners();
     });
   }
 
@@ -42,7 +42,7 @@ class ModelController<T> {
     _outEvents.sink.add(outEvent);
   }
 
-  void _notifyListeners() {
+  void notifyListeners() {
     _stateStream.sink.add(_model);
   }
 
