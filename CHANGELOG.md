@@ -1,2 +1,2 @@
 ## 1.0.0
-Rename to mvu
+Initial release of mvu statemanagement, inspired by Elm-Architecture
