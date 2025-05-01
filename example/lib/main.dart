@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mvu/mvu.dart';
+import 'package:flutter_mvu/flutter_mvu.dart';
 
 void main() {
   runApp(const MyApp());
