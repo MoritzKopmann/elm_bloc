@@ -28,10 +28,13 @@ class ModelController<T extends Object> {
   }
 
   void _initEventStreamListener() {
-    _events.stream.listen((Event<T> event) async {
-      event.updateModel(_model, triggerEvent, _triggerOutEvent);
-      notifyListeners();
-    });
+    // Fire off a detached async function
+    () async {
+      await for (final Event<T> event in _events.stream) {
+        event.updateModel(_model, triggerEvent, _triggerOutEvent);
+        notifyListeners();
+      }
+    }();
   }
 
   void _triggerOutEvent(OutEvent<T> outEvent) {
