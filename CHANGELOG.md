@@ -6,3 +6,6 @@ Move TestController to seperate package
 
 ## 1.0.2
 Improve Event handling
+
+## 1.0.3
+reference test_package in README

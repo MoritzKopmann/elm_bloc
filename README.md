@@ -267,9 +267,27 @@ class FetchDataEvent implements Event<DataModel> {
 
 ---
 
+
 ## 🧪 Testing 🧪
 
-🔧 A flutter_mvu_test package is in the works! 🔧
+For unit and widget tests, add the `flutter_mvu_test` package to your dev dependencies:
+
+```yaml
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_mvu_test: ^0.1.0
+```
+
+Then import in your test files:
+
+```dart
+import 'package:flutter_mvu_test/flutter_mvu_test.dart';
+```
+
+Use `TestModelController<T>` to synchronously dispatch events and assert on both model state, `Event<T>` and `OutEvent<T>` emissions. 
+
+See **flutter_mvu_test** [![flutter_mvu_test pub version](https://img.shields.io/pub/v/flutter_mvu_test.svg)](https://pub.dev/packages/flutter_mvu_test)
 
 
 ## 🎓 Tips & Next Steps
