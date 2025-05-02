@@ -267,25 +267,10 @@ class FetchDataEvent implements Event<DataModel> {
 
 ---
 
-## 🧪 Testing Example 🧪
+## 🧪 Testing 🧪
 
-```dart
-import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_mvu/mvu.dart';
-import 'path/to/test_model_controller.dart';
+🔧 A flutter_mvu_test package is in the works! 🔧
 
-class CounterModel { int count = 0; }
-class IncrementEvent implements Event<CounterModel> {
-  @override
-  void updateModel(CounterModel model, _, __) => model.count++;
-}
-
-test('increment via dispatch()', () async {
-  final testController = TestModelController(CounterModel());
-  await testController.dispatch(IncrementEvent());
-  expect(testController.model.count, 1);
-});
-```
 
 ## 🎓 Tips & Next Steps
 
