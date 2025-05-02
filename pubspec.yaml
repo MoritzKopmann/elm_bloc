@@ -17,11 +17,3 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^3.0.0
-
-# Remove or comment this out to allow publishing to pub.dev
-# publish_to: "none"
-
-flutter:
-  # If you have assets or fonts, list them here.
-  # assets:
-  #   - assets/
