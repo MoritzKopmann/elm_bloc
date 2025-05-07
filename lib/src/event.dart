@@ -12,4 +12,5 @@ abstract class Event<T> {
   );
 }
 
+/// Represents a message from the model to a parent model, about events insife the model
 abstract class OutEvent<T> {}

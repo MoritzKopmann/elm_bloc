@@ -134,8 +134,6 @@ class ChildDidSomething extends OutEvent<MyChildModel> {
 
 ---
 
----
-
 ### 🔸 StateView<T>
 Defines how to render UI for a given state.
 

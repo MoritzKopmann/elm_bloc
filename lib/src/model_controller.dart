@@ -3,6 +3,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_mvu/src/event.dart';
 import 'package:flutter_mvu/src/sink_and_stream.dart';
 
+/// Manages the state and the model, and processes [events]
+//
 class ModelController<T extends Object> {
   final T _model;
   T get model => _model;

@@ -12,3 +12,6 @@ reference test_package in README
 
 ## 1.0.4
 add initial events
+
+## 1.0.5
+more documentation
