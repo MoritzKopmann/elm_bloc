@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mvu/src/model_controller.dart';
-import 'package:flutter_mvu/src/state_view.dart';
+import 'package:flutter_mvu/flutter_mvu.dart';
 
 /// A widget that binds a [ModelController] to a [StateView], rebuilding
 /// whenever the model emits a new state. Supports two construction modes:
@@ -19,9 +18,10 @@ class ModelProvider<T extends Object> extends StatefulWidget {
   ModelProvider(
     T model, {
     super.key,
+    List<Event<T>> initialEvents = const [],
     required StateView<T> stateView,
   })  : _stateView = stateView,
-        _controller = ModelController<T>(model),
+        _controller = ModelController<T>(model, initialEvents: initialEvents),
         _autoDispose = true;
 
   /// Constructs a provider using an existing [controller].

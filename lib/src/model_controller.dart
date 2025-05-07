@@ -11,9 +11,12 @@ class ModelController<T extends Object> {
   final _outEvents = OutEventStream<T>();
   final _stateStream = BroadcastStream<T>();
 
-  ModelController(this._model) {
+  ModelController(this._model, {List<Event<T>> initialEvents = const []}) {
     _initEventStreamListener();
     notifyListeners();
+    for (Event<T> event in initialEvents) {
+      triggerEvent(event);
+    }
   }
 
   Stream<T> get stream => _stateStream.stream;

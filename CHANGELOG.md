@@ -9,3 +9,6 @@ Improve Event handling
 
 ## 1.0.3
 reference test_package in README
+
+## 1.0.4
+add initial events

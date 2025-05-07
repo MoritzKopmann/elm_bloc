@@ -11,7 +11,7 @@ A minimal Elm-inspired Model-View-Update (MVU) state management library for Flut
    dependencies:
      flutter:
        sdk: flutter
-     flutter_mvu: ^0.1.0
+     flutter_mvu: ^1.0.3
    ```
 2. **Fetch packages**:
    ```bash
@@ -47,16 +47,40 @@ This clear flow ensures that all state changes are predictable, easy to trace, a
 ## 📝 API Summary 📋
 
 ### 🔸 ModelController<T>
-Manages your `Model` instance, processes `Event<T>` events, and broadcasts state changes.
+Manages a model instance, processes events, emits states, and optionally dispatches initial events.
 
-- **Constructor**: `ModelController(T initialModel)`
+```dart
+class ModelController<T extends Object> {
+  ModelController(
+    T model, {
+    List<Event<T>> initialEvents = const [],
+  });
+
+  T get model;
+  Stream<T> get stream;
+  Stream<OutEvent<T>> get outEventStream;
+
+  void triggerEvent(Event<T> event);
+  void notifyListeners();
+  void dispose();
+}
+```
+
+- **Constructor**:
+  - `ModelController(model)` — no initial events.
+  - `ModelController(model, initialEvents: [...])` — enqueues those right after initialization.
+
 - **Properties**:
-  - `T get model` – latest state object
-  - `Stream<T> get stream` – broadcast of state snapshots
-- **Methods**:
-  - `void triggerEvent(Event<T> event)` – enqueue an event
-  - `void dispose()` – close streams and free resources
+  - `model`: the current state instance.
+  - `stream`: a broadcast stream of state snapshots.
+  - `outEventStream`: a broadcast stream of `OutEvent<T>` for parent-child communication.
 
+- **Methods**:
+  - `triggerEvent(event)`: enqueue an `Event<T>` for processing.
+  - `notifyListeners()`: manually emit the current model into `stream`.
+  - `dispose()`: close all internal streams and free resources.
+
+---
 
 ### 🔸 Event<T>
 Defines how to update the `Model` when something happens.
@@ -71,20 +95,21 @@ abstract class Event<T> {
 }
 ```
 
-- Implement `Event<T>` and override `updateModel`.
+- Implement `Event<T>` and override `updateModel` to update the model.
 - Use `triggerEvent` to chain further events.
 - Use `triggerOutEvent` to bubble messages to parent models.
+- Add attributes to the Event, which are being set by the constructor, to create parameterized events 
 
+---
 
 ### 🔸 OutEvent<T>
-A simple marker to bubble child→parent messages. Your model can be any class; no inheritance needed.
+Marker for bubbling child → parent messages.
 
 ```dart
-class ChildDidSomething extends OutEvent<MyChildModel> {
-  final String info;
-  ChildDidSomething(this.info);
-}
+abstract class OutEvent<T> {}
 ```
+
+Emit via `triggerOutEvent(...)` inside `updateModel`.
 
 #### Parent-Child Wiring Example
 ```dart
@@ -107,9 +132,12 @@ class ChildDidSomething extends OutEvent<MyChildModel> {
 }
 ```
 
+---
+
+---
 
 ### 🔸 StateView<T>
-Defines how to render a `Model` and emit `Event<T>` events in response.
+Defines how to render UI for a given state.
 
 ```dart
 abstract class StateView<T> {
@@ -121,6 +149,9 @@ abstract class StateView<T> {
 }
 ```
 
+- Build pure functions: no internal state, just `context`, `state`, `triggerEvent`.
+
+---
 
 ### 🔸 ModelProvider<T>
 A `StatefulWidget` that binds a `ModelController<T>` to a `StateView<T>`.
@@ -130,6 +161,7 @@ A `StatefulWidget` that binds a `ModelController<T>` to a `StateView<T>`.
   ModelProvider(
     MyModel(),            // your raw model
     stateView: MyView(),  // your StateView implementation
+    initialEvents: [],    // optional list of initial events to be triggered after model initialization
   )
   ```
   • Creates its own `ModelController` and **auto-disposes** it.
@@ -198,6 +230,8 @@ void main() {
 }
 ```
 
+---
+
 ### 2️⃣ Counter Example (Self-managed)
 
 ```dart
@@ -219,7 +253,23 @@ void main() {
 
 ```
 
-### 3️⃣ Async Event Pattern ⏳
+---
+
+### 3️⃣ Counter (Initial Events)
+
+```dart
+final provider = ModelProvider(
+  CounterModel(),
+  initialEvents: [IncrementEvent(), IncrementEvent()],
+  stateView: CounterView(),
+);
+```
+
+Immediately, the counter starts at 2!
+
+---
+
+### 4️⃣ Async Event Pattern ⏳
 
 ```dart
 // 1️⃣ Model with loading/error state
@@ -276,7 +326,7 @@ For unit and widget tests, add the `flutter_mvu_test` package to your dev depend
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_mvu_test: ^0.1.0
+  flutter_mvu_test: ^1.0.1
 ```
 
 Then import in your test files:
