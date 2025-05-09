@@ -8,7 +8,7 @@ abstract class Event<T> {
   void updateModel(
     T model,
     Function(Event<T> event) triggerEvent,
-    Function(OutEvent<T> triggerOutEvent) triggerOutEvent,
+    Function(OutEvent<T> outEvent) triggerOutEvent,
   );
 }
 

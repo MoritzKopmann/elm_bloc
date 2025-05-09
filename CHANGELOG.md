@@ -15,3 +15,6 @@ add initial events
 
 ## 1.0.5
 more documentation
+
+## 1.0.6
+improve naming
